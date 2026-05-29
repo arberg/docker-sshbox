@@ -1,0 +1,24 @@
+services:
+  sshbox:
+    build: .
+    container_name: sshbox
+    hostname: sshbox
+    volumes:
+      - ${SSHBOX_HOME_DIR}:/home/sshbox
+      - ${GIT_REPO_DIR}:/git
+      - ./hostkeys:/etc/ssh/hostkeys
+    ports:
+      - "7723:22"
+    networks:
+      - isolated
+    security_opt:
+      - no-new-privileges:true
+    restart: unless-stopped
+
+networks:
+  isolated:
+    name: ${NETWORK_ISOLATED_NAME:-sshbox_isolated}
+    driver: bridge
+    ipam:
+      config:
+        - subnet: ${NETWORK_ISOLATED_SUBNET:-172.16.0.0/24}
