@@ -6,3 +6,4 @@ hostkeys
 .env
 .idea
 guides
+print-docker-latest-build-metadata.sh
