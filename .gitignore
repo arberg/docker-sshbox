@@ -7,3 +7,10 @@ hostkeys
 .idea
 guides
 print-docker-latest-build-metadata.sh
+
+# Compose Manager Plus state files
+.compose.lock
+has_build
+last_cmd.log
+last_result.json
+started_at
