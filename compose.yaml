@@ -1,19 +1,29 @@
+name: sshbox
+
 services:
   sshbox:
-    build: .
+    build:
+      context: .
+      args:
+        USERNAME: ${SSHBOX_USERNAME:-sshbox}
+        UID: ${SSHBOX_UID:-1000}
+        GID: ${SSHBOX_GID:-100}
     container_name: sshbox
     hostname: sshbox
-    volumes:
-      - ${SSHBOX_HOME_DIR}:/home/sshbox
-      - ${GIT_REPO_DIR}:/git
-      - ./hostkeys:/etc/ssh/hostkeys
-    ports:
-      - "7723:22"
-    networks:
-      - isolated
+    restart: unless-stopped
     security_opt:
       - no-new-privileges:true
-    restart: unless-stopped
+    ports:
+      - "${SSHBOX_PORT:-7723}:22"
+    volumes:
+      - ${SSHBOX_HOME_DIR:-/mnt/user/home/sshbox}:/home/${SSHBOX_USERNAME:-sshbox}
+      - ${GIT_REPO_DIR:-/mnt/user/gitsshbox}:/git
+      - ${SSHBOX_HOSTKEYS_DIR:-/mnt/user/docker/sshbox/hostkeys}:/etc/ssh/hostkeys
+    networks:
+      - isolated
+    labels:
+      net.unraid.docker.icon: https://git-scm.com/images/logos/downloads/Git-Icon-1788C.png
+      net.unraid.docker.shell: /bin/bash
 
 networks:
   isolated:

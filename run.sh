@@ -1,1 +1,4 @@
-sudo docker-compose up -d --build
+#!/bin/sh
+set -eu
+
+docker compose up -d --build

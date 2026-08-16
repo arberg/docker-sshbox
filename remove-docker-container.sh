@@ -1,5 +1,6 @@
-. env
-# down command removes container AND its network
-# --rmi further deletes: images built by the project
-# --volumes further deletes: named volumes
-sudo docker-compose down --rmi local
+#!/bin/sh
+set -eu
+
+# Down removes the container and its project network. --rmi local also removes
+# the image built by this project; persistent bind-mounted data is preserved.
+docker compose down --rmi local

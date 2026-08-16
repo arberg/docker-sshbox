@@ -9,6 +9,31 @@ A minimal Debian-based Docker container that provides:
 
 The container is intended to provide a secure remote shell for accessing files in a mounted directory without allowing the container itself to initiate connections to the LAN or Internet.
 
+## Compose Manager Plus
+
+This directory is a directly discoverable Compose Manager Plus stack. The
+plugin reads `compose.yaml`, `.env`, `name`, `description`, `icon_url`, and
+`autostart` from this directory.
+
+Before the first Compose Manager start, copy the example environment file:
+
+```bash
+cp .env.example .env
+```
+
+When migrating an existing SSHBox instance, copy its existing host key into
+`SSHBOX_HOSTKEYS_DIR` before bringing this stack up. Preserving the key avoids
+SSH host-identification warnings on every client:
+
+```bash
+mkdir -p /mnt/user/docker/sshbox/hostkeys
+cp -a /mnt/user/dockerhub/sshbox/hostkeys/. /mnt/user/docker/sshbox/hostkeys/
+```
+
+The live Tower defaults are represented in `.env.example`: host port `7723`,
+home `/mnt/user/home/sshbox`, repositories `/mnt/user/gitsshbox`, and isolated
+subnet `172.16.0.0/24`.
+
 ## Get Started
 
 `cp .env.example .env`
@@ -17,7 +42,7 @@ Then edit it to your preferences.
 
 and run with 
 
-`run.sh`
+`./run.sh`
 
 ## Architecture
 
@@ -85,7 +110,7 @@ Password authentication is disabled.
 Build and start the container:
 
 ```bash
-docker-compose up -d --build
+docker compose up -d --build
 ```
 
 ## Connecting
