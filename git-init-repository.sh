@@ -33,3 +33,4 @@ echo "Creating bare Git repository: $repo"
 sshbox mkdir -p "$repo"
 sshbox git init --bare "$repo"
 
+echo "Connect using: git remote add tower ssh://tower-sshbox$repo"
